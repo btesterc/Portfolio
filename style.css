@@ -23,6 +23,10 @@ body
 	background:#3498db;
 }
 
+.skill-set li a:hover
+{
+	background:#3498db;
+}
 h1
 {
 	color:rgba(0,0,0,.75);
@@ -163,6 +167,7 @@ ul
 
 .navbar-link{
 	background:#333232ad !important;
+	padding: 0 !important;
 }
 
 .skill-set li a
@@ -173,6 +178,7 @@ ul
 	list-style:none;
 	text-align:justify;
 	text-decoration: none;
+	padding: 10px ;
 }
 
 @media screen and (max-width: 48em) {
@@ -199,7 +205,7 @@ ul
 { font-size:14px;}
 }
 .clearfix:after {
-   content: " "; /* Older browser do not support empty content */
+   content: " "; 
    visibility: hidden;
    display: block;
    height: 0;
