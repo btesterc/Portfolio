@@ -22,10 +22,12 @@
 
   
 nav {
+
   display: flex;
   justify-content: space-around;
   align-items: center;
   height: 17vh;
+
 }
 
 .nav-links {
@@ -250,6 +252,7 @@ article h3 {
 
 
 
+
 /* --------- projects part --------- */
 
 
@@ -313,5 +316,17 @@ article h3 {
   .email-icon {
 	height: 2.5rem;
 	cursor: default;
+  }
+
+
+  /* --------- footer ---------  */
+  
+  footer {
+	height: 26vh;
+	margin: 0 1rem;
+  }
+  
+  footer p {
+	text-align: center;
   }
   
