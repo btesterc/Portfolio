@@ -238,7 +238,6 @@ section {
 article {
 	display: flex;
 	width: 10rem;
-	justify-content: space-between;
 	gap: 0.5rem;
 }
   
@@ -246,9 +245,6 @@ article .icons {
 	cursor: default;
 }
 
-article h3 {
-	text-align: left;
-}
 
 
 
