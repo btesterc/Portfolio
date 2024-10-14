@@ -1,0 +1,12 @@
+
+/* for-tablet-portrait-up */
+@media (min-width: 600px) { }
+
+
+/* for-tablet-landscape-up */
+@media (min-width: 900px) { }
+
+
+/* for-medium-desktop-up */
+@media (min-width: 1400px) { }
+
