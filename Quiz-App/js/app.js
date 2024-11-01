@@ -1,8 +1,12 @@
 
  const questionList = [];
- const KEY = Netlify.env.get("API")
-
- fetch(`https://quizapi.io/api/v1/questions?apiKey=${KEY}&limit=10`)
+ exports.handler = async function (event, context) {
+    const value = process.env.API;
+  
+    return value ;
+  };
+  
+ fetch(`https://quizapi.io/api/v1/questions?apiKey=${exports.handler}&limit=10`)
     .then((promise) => promise.json())
     .then((data) => {
         console.log(data[0])
