@@ -1,6 +1,6 @@
 
  const questionList = [];
- const KEY = process.env.API
+ const KEY = Netlify.env.get("API")
 
  fetch(`https://quizapi.io/api/v1/questions?apiKey=${KEY}&limit=10`)
     .then((promise) => promise.json())
