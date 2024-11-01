@@ -34,15 +34,21 @@ UI.prototype.showQuestion = function(question) {
 
 
     for (let [key, value] of Object.entries(question.answers)) {
-        const option = document.createElement("div");
-        option.classList.add("option");
-        option.addEventListener("click", optionSelected);
-
-        const span = document.createElement("span");
-        span.textContent = key + ") " + value;
-
-        option.appendChild(span);
-        optionList.appendChild(option);
+        if (value === null) {
+            continue;
+        } else {
+            const option = document.createElement("div");
+            option.classList.add("option");
+            option.addEventListener("click", optionSelected);
+    
+            const span = document.createElement("span");
+    
+            span.textContent = key + ") " + value;
+    
+            option.appendChild(span);
+            optionList.appendChild(option);
+        }
+             
     }
 
     cardBody.appendChild(title);

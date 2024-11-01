@@ -1,8 +1,48 @@
-const questionList = [
-    new Question("Which of the following is a semantic HTML element?", {a: "<div>", b: "<span>", c: "<article>", d: "<b>"}, "c" ),
-    new Question("Which of these elements is used to define the main content of a document?", {a: "<aside>", b: "<header>", c: "<main>", d: " <section>"}, "c" ),
-    new Question("Which tag is best used for emphasizing important text in a semantic way?", {a: "<strong>", b: "<i>", c: "<b>", d: "<span>"}, "a" )
-]
+APIKEY = "tNfo2zAVENLy7zTxi1yXdeKpoT9IqLzuAVGapwnf";
+ const questionList = [];
+
+ fetch(`https://quizapi.io/api/v1/questions?apiKey=${APIKEY}&limit=10`)
+    .then((promise) => promise.json())
+    .then((data) => {
+        console.log(data[0])
+        for (question of data) {
+            const qText = question.question;
+            const qAnswers = {
+                a: question.answers.answer_a,
+                b: question.answers.answer_b,
+                c: question.answers.answer_c,
+                d: question.answers.answer_d};
+                
+            const correctAnswers = question.correct_answers;
+            console.log(correctAnswers)
+            let correctA;
+            for (let key in correctAnswers) {
+                if (correctAnswers[key] === "true") {
+                    correctA = key[7]; 
+                    break;
+                }
+            }
+
+            
+            const newQuestion = new Question(qText, qAnswers, correctA)
+
+            questionList.push(newQuestion)
+
+        }  
+        console.log(questionList)
+    })
+    
+
+    function Question(text, answers, corretAnswer) {
+        this.text = text;
+        this.answers = answers;
+        this. corretAnswer = corretAnswer;
+    }
+    
+    Question.prototype.control = function(answer) {
+        return  answer === this.corretAnswer;
+    }
+    
 
 const quiz = new Quiz(questionList);
 const ui = new UI();
