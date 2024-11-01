@@ -1,7 +1,7 @@
-const APIKEY = config.API;
+
  const questionList = [];
 
- fetch(`https://quizapi.io/api/v1/questions?apiKey=${APIKEY}&limit=10`)
+ fetch(`https://quizapi.io/api/v1/questions?apiKey=${API}&limit=10`)
     .then((promise) => promise.json())
     .then((data) => {
         console.log(data[0])
