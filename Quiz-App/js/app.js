@@ -1,16 +1,18 @@
 
  const questionList = [];
- let KEY;
+ let SECRET_API_KEY;
  const handler = async function (event, context) {
-    const SECRET_API_KEY  = process.env.QUIZ_KEY;
-    KEY = SECRET_API_KEY;
+    SECRET_API_KEY  = process.env.QUIZ_KEY;
+    console.log(SECRET_API_KEY);
     return {
         statusCode: 200,
         body: JSON.stringify({ message: SECRET_API_KEY }),
     };
 };
 
- fetch(`https://quizapi.io/api/v1/questions?apiKey=${KEY}&limit=10`)
+handler()
+
+ fetch(`https://quizapi.io/api/v1/questions?apiKey=${SECRET_API_KEY}&limit=10`)
     .then((promise) => promise.json())
     .then((data) => {
         console.log(data[0])
