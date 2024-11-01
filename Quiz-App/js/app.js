@@ -1,12 +1,8 @@
 
  const questionList = [];
- exports.handler = async function (event, context) {
-    const value = process.env.API;
+ const KEY = process.env.QUIZ_KEY
   
-    return value ;
-  };
-  
- fetch(`https://quizapi.io/api/v1/questions?apiKey=${exports.handler}&limit=10`)
+ fetch(`https://quizapi.io/api/v1/questions?apiKey=${KEY}&limit=10`)
     .then((promise) => promise.json())
     .then((data) => {
         console.log(data[0])
