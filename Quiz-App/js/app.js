@@ -1,4 +1,4 @@
-APIKEY = "tNfo2zAVENLy7zTxi1yXdeKpoT9IqLzuAVGapwnf";
+const APIKEY = config.API;
  const questionList = [];
 
  fetch(`https://quizapi.io/api/v1/questions?apiKey=${APIKEY}&limit=10`)
