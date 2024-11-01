@@ -1,68 +1,54 @@
-const questionList = [];
-let SECRET_API_KEY;
 
-const handler = async function (event, context) {
-    SECRET_API_KEY = process.env.NEXT_QUIZ_KEY;
-    console.log(SECRET_API_KEY);
+ const questionList = [];
+ let SECRET_API_KEY = "tNfo2zAVENLy7zTxi1yXdeKpoT9IqLzuAVGapwnf"
 
-    try {
-        const response = await fetch(`https://quizapi.io/api/v1/questions?apiKey=${SECRET_API_KEY}&limit=10`);
-        const data = await response.json();
-
-        for (const question of data) {
+ fetch(`https://quizapi.io/api/v1/questions?apiKey=${SECRET_API_KEY}&limit=10`)
+    .then((promise) => promise.json())
+    .then((data) => {
+        console.log(data[0])
+        for (question of data) {
             const qText = question.question;
             const qAnswers = {
                 a: question.answers.answer_a,
                 b: question.answers.answer_b,
                 c: question.answers.answer_c,
-                d: question.answers.answer_d
-            };
-
+                d: question.answers.answer_d};
+                
             const correctAnswers = question.correct_answers;
+            console.log(correctAnswers)
             let correctA;
             for (let key in correctAnswers) {
                 if (correctAnswers[key] === "true") {
-                    correctA = key[7];
+                    correctA = key[7]; 
                     break;
                 }
             }
 
-            const newQuestion = new Question(qText, qAnswers, correctA);
-            questionList.push(newQuestion);
-        }
+            
+            const newQuestion = new Question(qText, qAnswers, correctA)
 
-        console.log(questionList);
+            questionList.push(newQuestion)
 
-        return {
-            statusCode: 200,
-            body: JSON.stringify({ questions: questionList }),
-        };
-    } catch (error) {
-        console.error("Error fetching questions:", error);
-        return {
-            statusCode: 500,
-            body: JSON.stringify({ error: "Failed to fetch questions" }),
-        };
+        }  
+        console.log(questionList)
+    })
+    
+
+    function Question(text, answers, corretAnswer) {
+        this.text = text;
+        this.answers = answers;
+        this. corretAnswer = corretAnswer;
     }
-};
+    
+    Question.prototype.control = function(answer) {
+        return  answer === this.corretAnswer;
+    }
+    
 
-handler();
-
-function Question(text, answers, correctAnswer) {
-    this.text = text;
-    this.answers = answers;
-    this.correctAnswer = correctAnswer;
-}
-
-Question.prototype.control = function(answer) {
-    return answer === this.correctAnswer;
-};
-
-// Assuming Quiz and UI are defined classes
 const quiz = new Quiz(questionList);
 const ui = new UI();
 
-ui.btnStart.addEventListener("click", function() {
+ui.btnStart.addEventListener("click", function(){
     startTimer(10);
     startTimerLine();
     ui.quizBox.classList.add("active");
@@ -70,21 +56,25 @@ ui.btnStart.addEventListener("click", function() {
     ui.showQuestion(quiz.currentQuestion());
     ui.questionNumber(quiz.questionIndex + 1, quiz.questions.length);
     ui.btnNext.classList.remove("show");
-});
+
+})
+
 
 ui.btnNext.addEventListener('click', function() {
-    if (quiz.questions.length !== quiz.questionIndex) {
+    if(quiz.questions.length != quiz.questionIndex){
         startTimer(10);
-        startTimerLine();
+        startTimerLine()
         ui.showQuestion(quiz.currentQuestion());
-        ui.questionNumber(quiz.questionIndex + 1, quiz.questions.length);
-        ui.btnNext.classList.remove("show");
+        ui.questionNumber(quiz.questionIndex + 1, quiz.questions.length)
+        ui.btnNext.classList.remove("show")
+       
     } else {
-        ui.quizBox.classList.remove("active");
-        ui.scoreBox.classList.add("active");
+        ui.quizBox.classList.remove("active")
+        ui.scoreBox.classList.add("active"); 
         ui.showBildboard(quiz.correctAnswer, quiz.questions.length);
     }
 });
+
 
 function optionSelected(e) {
     clearInterval(counter);
@@ -100,53 +90,63 @@ function optionSelected(e) {
     if (currentQuestion.control(pickedAnswer)) {
         quiz.correctAnswer += 1;
         selectedElement.classList.add("correct");
-        selectedElement.insertAdjacentHTML("beforeend", ui.correctIcon);
+        selectedElement.insertAdjacentHTML("beforeend", ui.correctIcon );
     } else {
         selectedElement.classList.add("incorrect");
         selectedElement.insertAdjacentHTML("beforeend", ui.inCorrectIcon);
     }
 
     quiz.questionIndex += 1;
-    ui.disableAlloption();
-    ui.btnNext.classList.add("show");
-}
+    ui.disableAlloption()
+    ui.btnNext.classList.add("show")
+};
 
-ui.btnQuit.addEventListener("click", function() {
-    window.location.reload();
+
+
+ui.btnQuit.addEventListener("click", function(){
+    window.location.reload()
 });
 
-ui.btnReplay.addEventListener("click", function() {
+ui.btnReplay.addEventListener("click", function(){
     quiz.questionIndex = 0;
     quiz.correctAnswer = 0;
-    ui.btnStart.click();
+    
+    ui.btnStart.click()
     ui.scoreBox.classList.remove("active");
 });
 
+
 let counter;
 function startTimer(time) {
-    counter = setInterval(() => {
-        ui.timeSecond.textContent = time;
-        time--;
+    counter = setInterval(timer, 1000); 
 
-        if (time < 0) {
-            clearInterval(counter);
-            clearInterval(counterline);
-            ui.disableAlloption();
-            quiz.questionIndex += 1;
-            ui.btnNext.classList.add("show");
-        }
-    }, 1000);
+    function timer () {
+    ui.timeSecond.textContent = time
+
+      time--
+      
+      if(time < 0) {
+        clearInterval(counter);
+        clearInterval(counterline);
+        ui.disableAlloption();
+        quiz.questionIndex += 1;
+        ui.btnNext.classList.add("show")
+      }
+    }
 }
 
 let counterline;
-function startTimerLine() {
+function startTimerLine () {
     let lineWidth = 0;
-    counterline = setInterval(() => {
+
+    counterline = setInterval(timer, 20);
+
+    function timer ( ) {
         lineWidth += 1;
         ui.timeLine.style.width = lineWidth + "px";
 
         if (lineWidth > 549) {
-            clearInterval(counterline);
+            clearInterval(counterLine);
         }
-    }, 20);
+    }
 }
